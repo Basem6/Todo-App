@@ -1,5 +1,15 @@
 import { NavLink } from "react-router-dom";
 export function Aside(){
+    
+    document.querySelectorAll(".link").forEach((e)=>{
+        e.addEventListener("click",function(){
+            document.querySelectorAll(".link").forEach((e)=>{
+                e.children[0].className="material-symbols-outlined"
+            })
+            e.children[0].className="material-symbols-outlined text-indigo-600 dark:text-indigo-400"
+        })
+    })
+    // let c="text-indigo-600 dark:text-indigo-400"
     return (
         <>
             <aside className="hidden  md:flex  h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-900 flex-col p-4 gap-2 z-40 transition-all duration-200 ease-in-out">

@@ -24,7 +24,7 @@ export function Complete(){
             <div className="bg-surface-container-lowest p-6 rounded-2xl">
             <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4">Productivity Pulse</p>
             <div className="flex items-end gap-2 mb-2">
-            <span className="text-5xl font-black text-on-background tracking-tighter">124</span>
+            <span className="text-5xl font-black text-on-background tracking-tighter">{tasks.filter(t => t.status === "checked").length}</span>
             <span className="text-sm font-semibold text-tertiary-fixed-dim mb-2">Tasks Done</span>
             </div>
             <p className="text-sm text-on-surface-variant leading-relaxed">+12% from last week. You're maintaining a strong momentum.</p>

@@ -67,7 +67,7 @@ export function Contente(){
                         <div className="flex gap-4">
                         <div className="relative min-w-35">
                         <Box sx={{ minWidth: 120,borderBlock: '0px solid'  }} className="appearance-none w-full bg-surface-container-low border-none outline-none ">
-                            <FormControl fullWidth className="border-none outline-none ">
+                            <FormControl fullWidth className="border-none outline-none rounded-md "   >
                                 <InputLabel id="demo-simple-select-label " className="outline-none">Priority</InputLabel>
                                 <Select
                                 labelId="demo-simple-select-label"
@@ -84,7 +84,7 @@ export function Contente(){
                         </Box>
                 
                         </div>
-                        <div className="flex items-center bg-surface-container-low rounded-xl px-4 min-w-[160px]">
+                        <div className="flex items-center bg-surface-container-low rounded-xl px-4 min-w-40">
                         <span className="material-symbols-outlined text-outline text-lg mr-2">calendar_month</span>
                         <input className="bg-transparent border-none w-full py-4 text-xs font-semibold focus:ring-0 placeholder:text-outline" placeholder="Set Date" type="text" value={task.date} onChange={(e)=>{handledate(e)}}/>
                         </div>
@@ -118,7 +118,7 @@ export function Contente(){
                         <div className="grid gap-4 tasks_place">
                             {tasks.map((item,index) => {
                                 return (
-                                    <Task id={index} key={index}/>
+                                    <Task id={index} key={index} s="a"/>
                                 );
                             })}
                         </div>
@@ -133,7 +133,7 @@ export function Contente(){
                         <div className="relative size-full flex items-center justify-center text-secondary">
                         <span
                         className="material-symbols-outlined text-6xl"
-                        style={{ fontVariationSettings: "'wght' 200" }}
+                        
                         >
                         auto_stories
                         </span>
