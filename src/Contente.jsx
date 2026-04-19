@@ -1,7 +1,7 @@
 import { Task } from "./Task.jsx";
 import { Footer } from "./Footer.jsx";
 import { Header } from "./Header.jsx";
-import { useState } from "react";
+import { useState , useContext , useEffect  } from "react";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -9,22 +9,19 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import { TasksContext } from "./context.js";
 export function Contente(){
-    let array_tasks=[
-        <Task title="Weekly Sync with Engineers" pharse="Review development tickets for the upcoming sprint cycle." Priority="High Priority" date="10:30 AM" status="nochecked"/>,
-        <Task title="Design System Review" pharse="Update color tokens and typography hierarchy for Q3." Priority="Low Priority" date="11:00 AM" status="nochecked"/>,
-        <Task title="Client Onboarding Call" pharse="Introduction to the project scope and key milestones." Priority="Medium Priority" date="2:00 PM" status="nochecked"/>,
-        <Task title="Invoice Processing" pharse="Review and approve monthly service invoices for payment." Priority="Low Priority" date="3:30 PM" status="nochecked"/>,
-    ]
+    const {tasks, setTasks} = useContext(TasksContext)
     let [task , setTask] = useState({title: "", pharse: "This is a new task.", Priority: "" , date: "" , status: "nochecked"})
-    let [tasks , setTasks] = useState(array_tasks)
     function handleaddtask(e){
         setTask({...task, title: e.target.value , pharse: "This is a new task." , Priority: task.Priority, date: task.date, status: task.status})
     }
     function handleclickbutton(){
         if(task.title.trim() !== "" && task.Priority.trim() !== "" && task.date.trim() !== ""){
-            let newe = <Task title={task.title} pharse={task.pharse} Priority={task.Priority} date={task.date} status="nochecked"/>
-            setTasks([...tasks, newe])
+            let newe = {title: task.title, pharse: task.pharse, Priority: task.Priority, date: task.date, status: "nochecked"};
+            let ubdatedtasks = [...tasks, newe]
+            setTasks(ubdatedtasks)
+            localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
             document.querySelector(".alert_success").style.cssText= " opacity: 1;";
             setTimeout(() => {
                 document.querySelector(".alert_success").style.cssText= " opacity: 0;";
@@ -35,7 +32,6 @@ export function Contente(){
             setTimeout(() => {
                 document.querySelector(".alert").style.cssText= " opacity: 0;";
             },3000)
-            console.log("Please fill in all fields before adding a task.");
         }
     }
     function handleoption(e){
@@ -44,6 +40,12 @@ export function Contente(){
     function handledate(e){
             setTask({...task, date: e.target.value})
     }
+    useEffect(() => {
+        let storedTasks = localStorage.getItem("tasks");
+        if (storedTasks) {
+            setTasks(JSON.parse(storedTasks));
+        }
+    }, []);
     return(
         <>
             <main className="flex-1 ml-64 min-h-screen flex flex-col ">
@@ -64,9 +66,9 @@ export function Contente(){
                         </div>
                         <div className="flex gap-4">
                         <div className="relative min-w-35">
-                        <Box sx={{ minWidth: 120 }} className="appearance-none w-full bg-surface-container-low border-none ">
-                            <FormControl fullWidth className="border-none">
-                                <InputLabel id="demo-simple-select-label">Priority</InputLabel>
+                        <Box sx={{ minWidth: 120,borderBlock: '0px solid'  }} className="appearance-none w-full bg-surface-container-low border-none outline-none ">
+                            <FormControl fullWidth className="border-none outline-none ">
+                                <InputLabel id="demo-simple-select-label " className="outline-none">Priority</InputLabel>
                                 <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -80,6 +82,7 @@ export function Contente(){
                                 </Select>
                             </FormControl>
                         </Box>
+                
                         </div>
                         <div className="flex items-center bg-surface-container-low rounded-xl px-4 min-w-[160px]">
                         <span className="material-symbols-outlined text-outline text-lg mr-2">calendar_month</span>
@@ -114,11 +117,9 @@ export function Contente(){
                         </div>
                         <div className="grid gap-4 tasks_place">
                             {tasks.map((item,index) => {
-                                return {
-                                    ...item,
-                                    key: index + 1
-                                    
-                                    };
+                                return (
+                                    <Task id={index} key={index}/>
+                                );
                             })}
                         </div>
                         </div>

@@ -71,3 +71,24 @@ button{
     --font-body: "Inter", sans-serif;
     --font-label: "Inter", sans-serif;
     }
+.active{
+  display: flex;                 /* flex */
+  align-items: center;           /* items-center */
+  gap: 0.75rem;                  /* gap-3 */
+
+  padding: 0.75rem 1rem;         /* py-3 px-4 */
+
+  background-color: #ffffff;     /* bg-white */
+  color: #0f172a;                /* text-slate-900 */
+
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* shadow-sm */
+  border-radius: 0.75rem;        /* rounded-xl */
+
+  transition: all 0.2s ease-in-out; /* transition-all duration-200 ease-in-out */
+}
+
+/* Dark Mode */
+.dark .active {
+  background-color: #1e293b;     /* slate-800 */
+  color: #ffffff;                /* text-white */
+}
