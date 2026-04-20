@@ -1,7 +1,7 @@
 import { Task } from "./Task.jsx";
 import { Footer } from "./Footer.jsx";
 import { Header } from "./Header.jsx";
-import { useState , useContext , useEffect  } from "react";
+import { useState , useContext , useEffect , useMemo } from "react";
 import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
@@ -40,12 +40,21 @@ export function Contente(){
     function handledate(e){
             setTask({...task, date: e.target.value})
     }
+    // get data from localstorge
     useEffect(() => {
         let storedTasks = localStorage.getItem("tasks");
         if (storedTasks) {
             setTasks(JSON.parse(storedTasks));
         }
     }, []);
+    //cashing with useMemo
+    let array = useMemo(()=>{
+        return tasks.map((item,index) => {
+                                return (
+                                    <Task id={index} key={index} s="a"/>
+                                );
+            })
+    },[tasks])
     return(
         <>
             <main className="flex-1 ml-64 min-h-screen flex flex-col ">
@@ -82,7 +91,6 @@ export function Contente(){
                                 </Select>
                             </FormControl>
                         </Box>
-                
                         </div>
                         <div className="flex items-center bg-surface-container-low rounded-xl px-4 min-w-40">
                         <span className="material-symbols-outlined text-outline text-lg mr-2">calendar_month</span>
@@ -116,11 +124,7 @@ export function Contente(){
                         </div>
                         </div>
                         <div className="grid gap-4 tasks_place">
-                            {tasks.map((item,index) => {
-                                return (
-                                    <Task id={index} key={index} s="a"/>
-                                );
-                            })}
+                            {array}
                         </div>
                         </div>
                         <div className="mt-12">

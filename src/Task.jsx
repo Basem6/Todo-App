@@ -1,4 +1,3 @@
-// import { useState } from "react";
 import { TasksContext } from "./context.js";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
@@ -83,12 +82,7 @@ export function Task({id , s}){
         handleClickOpen()
     }
     const handleedit_task = () => {
-    // const formData = new FormData(event.currentTarget);
-    // const formJson = Object.fromEntries(formData.entries());
-    // const email = formJson.email;
-    // const details_task = formJson.details_task;
     handleClose2()
-    console.log(id)
     let ubdatedtasks = tasks.map((task,index)=>{
             if(id==index){
                 task.title=taskup.titlel

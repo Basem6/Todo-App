@@ -9,7 +9,6 @@ export function Aside(){
             e.children[0].className="material-symbols-outlined text-indigo-600 dark:text-indigo-400"
         })
     })
-    // let c="text-indigo-600 dark:text-indigo-400"
     return (
         <>
             <aside className="hidden  md:flex  h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-900 flex-col p-4 gap-2 z-40 transition-all duration-200 ease-in-out">
@@ -24,7 +23,7 @@ export function Aside(){
                 </div>
                 <nav className="flex-1 space-y-1">
                     <NavLink className={({ isActive }) => `link flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 ease-in-out ${isActive ? 'active' : ''}`} end to="/">
-                        <span className="material-symbols-outlined text-indigo-600 dark:text-indigo-400">list_alt</span>
+                        <span className="material-symbols-outlined text-indigo-600 dark:text-indigo-400~">list_alt</span>
                         <span className="text-sm font-medium Inter">All Tasks</span>
                     </NavLink>
                     <NavLink className={({ isActive }) => `link flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 ease-in-out ${isActive ? 'active' : ''}`} to="/complete">
