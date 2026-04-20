@@ -1,7 +1,7 @@
 import { TasksContext } from "./context.js";
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import { useContext , useState } from "react";
+import { useContext  } from "react";
 import {
     Menubar,
     MenuRoot,
@@ -14,33 +14,8 @@ import {
     MenuSubmenuRoot,
     MenuSubmenuTrigger,
 } from './Menubar';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import Slide from '@mui/material/Slide';
-export function Task({id , s}){
+export function Task({details , s , dilogdelete , dilogubdate}){
     const {tasks , setTasks} = useContext(TasksContext);
-    const [open, setOpen] = useState(false);
-    const [open2, setOpen2] = useState(false);
-    const [taskup , setup] = useState({"titlel":tasks[id].title , "pharse":tasks[id].pharse})
-        const handleClickOpen2 = () => {
-            setOpen2(true);
-        };
-        const handleClose2 = () => {
-            setOpen2(false);
-        };
-    const handleClickOpen = () => {
-        setOpen(true);
-    }; 
-    const handleClose = () => {
-        setOpen(false);
-    };
-    
-    let details = tasks[id];
     function check(){ 
             if(details.Priority=="Low Priority"){
                 return { textColor: "text-on-tertiary", bgColor: "bg-tertiary-container" }
@@ -55,7 +30,7 @@ export function Task({id , s}){
         e.target.className="material-symbols-outlined text-primary text-xs opacity-0 group-hover:opacity-100"
         e.target.parentElement.className="flex items-center justify-center size-6 transition-colors  rounded-lg border-2 border-primary-fixed-dim hover:bg-primary-fixed-dim group"
         let newarr = tasks.map((item,index)=>{
-            if(index==id){
+            if(index==tasks.indexOf(details)){
                 return {...item, status: "nochecked"}
             }
             return item;
@@ -66,7 +41,7 @@ export function Task({id , s}){
         e.target.className="material-symbols-outlined text-on-primary text-xs"
         e.target.parentElement.className="flex items-center justify-center size-6 rounded-lg bg-primary border-2 border-primary transition-colors"
         let newarr = tasks.map((item,index)=>{
-            if(index==id){
+            if(index==tasks.indexOf(details)){
                 return {...item, status: "checked"}
             }
             return item;
@@ -75,32 +50,6 @@ export function Task({id , s}){
         localStorage.setItem("tasks", JSON.stringify(newarr));
         }   
     }  
-    function handleedit(){
-        handleClickOpen2()
-    }
-    function handledelete(){
-        handleClickOpen()
-    }
-    const handleedit_task = () => {
-    handleClose2()
-    let ubdatedtasks = tasks.map((task,index)=>{
-            if(id==index){
-                task.title=taskup.titlel
-                task.pharse=taskup.pharse
-                return task
-            }else{
-                return task
-            }
-    })
-    setTasks(ubdatedtasks)
-    localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
-    }
-    function handleagree(){
-        handleClose()
-        let ubdatedtasks = tasks.filter((e,index)=>{return index!=id})
-        setTasks(ubdatedtasks)
-        localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
-    }
     let statue_task = details.status === "checked" ? "done" : "calendar_today";
     let date_task = details.status === "checked" ? "Completed" : `${details.date}`;
     let { textColor, bgColor } = check()
@@ -136,79 +85,14 @@ export function Task({id , s}){
                                 <MenuPortal>
                                 <MenuPositioner sideOffset={4} alignOffset={-2}>
                                     <MenuPopup>
-                                    <MenuItem onClick={(e)=>{handleedit(e)}}><EditNoteIcon className="text-blue-500"></EditNoteIcon> Edit</MenuItem>
-                                    <MenuItem onClick={(e)=>{handledelete(e)}}><DeleteIcon className="text-red-400 relative right-0.5"></DeleteIcon> Delete </MenuItem>
+                                    <MenuItem onClick={()=>{dilogubdate(details)}}><EditNoteIcon className="text-blue-500"></EditNoteIcon> Edit</MenuItem>
+                                    <MenuItem onClick={()=>{dilogdelete(details)}}><DeleteIcon className="text-red-400 relative right-0.5"></DeleteIcon> Delete </MenuItem>
                                     </MenuPopup>
                                 </MenuPositioner>
                                 </MenuPortal>
                             </MenuRoot>
                         </Menubar>
                 </div>
-                <Dialog
-                    open={open}
-                    keepMounted
-                    disableScrollLock
-                    onClose={handleClose}
-                    aria-describedby="alert-dialog-slide-description"
-                    role="alertdialog"
-                >
-                    <DialogTitle>{""}</DialogTitle>
-                    <DialogContent>
-                    <DialogContentText id="alert-dialog-slide-description">
-                    
-                    Are you sure you want to delete this task?<br></br>
-                    This action cannot be undone.
-                    </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                    <Button onClick={handleClose} autoFocus>
-                        Disagree
-                    </Button>
-                    <Button onClick={(e)=>{handleagree(e)}}>Agree</Button>
-                    </DialogActions>
-                </Dialog>
-                <Dialog open={open2}
-                onClose={handleClose2}
-                disableScrollLock 
-                keepMounted>
-                <DialogTitle>Edit</DialogTitle>
-                <DialogContent>
-                <DialogContentText>    
-                </DialogContentText>
-                <form  id="subscription-form" >
-                    <TextField  
-                    onChange={(e)=>{setup({...taskup,titlel:e.target.value})}}
-                    className="n"  
-                    id="name"
-                    name="email"
-                    margin="dense"
-                    label="Title Task"
-                    fullWidth
-                    autoFocus="true"
-                    defaultValue={taskup.titlel}
-                    variant="standard"
-                    />
-                    <TextField
-                    onChange={(e)=>{setup({...taskup,pharse:e.target.value})}}
-                    className="d"
-                    id="details"
-                    name="details"
-                    margin="dense"
-                    autoFocus="true"
-                    defaultValue={taskup.pharse}
-                    label="Details Task"
-                    fullWidth
-                    variant="standard"
-                    />
-                </form>
-                </DialogContent>
-                <DialogActions>
-                <Button onClick={handleClose2}>Cancel</Button>
-                <Button onClick={handleedit_task} >
-                    Edit
-                </Button>
-                </DialogActions>
-                </Dialog>
     </div>
     )
     }

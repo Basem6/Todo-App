@@ -71,7 +71,7 @@ export function Pending(){
             {tasks.map((item,index) => {
                 if(item.status=="nochecked" && index!=id_pending_task){
                     return (
-                    <Task id={index} key={index+1} s="p"/>
+                    <Task details={tasks[index]} key={index+1} s="p"/>
                 );
                 }
             })}

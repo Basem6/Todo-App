@@ -7,14 +7,26 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
+import Slide from '@mui/material/Slide';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import { TasksContext } from "./context.js";
 export function Contente(){
-    const {tasks, setTasks} = useContext(TasksContext)
-    let [task , setTask] = useState({title: "", pharse: "This is a new task.", Priority: "" , date: "" , status: "nochecked"})
+    const {tasks, setTasks} = useContext(TasksContext);
+    const [Todo , seTodo] = useState(null);
+    const [open, setOpen] = useState(false);
+    const [open2, setOpen2] = useState(false);
+    const [taskup , setup] = useState({titlel:"" , pharse:""});
+    let [task , setTask] = useState({title: "", pharse: "This is a new task.", Priority: "" , date: "" , status: "nochecked"});
     function handleaddtask(e){
-        setTask({...task, title: e.target.value , pharse: "This is a new task." , Priority: task.Priority, date: task.date, status: task.status})
+        setTask({...task, title: e.target.value , pharse: "This is a new task." , Priority: task.Priority, date: task.date, status: task.status});
     }
     function handleclickbutton(){
         if(task.title.trim() !== "" && task.Priority.trim() !== "" && task.date.trim() !== ""){
@@ -40,7 +52,46 @@ export function Contente(){
     function handledate(e){
             setTask({...task, date: e.target.value})
     }
-    // get data from localstorge
+    
+    // delete dilog
+    function handledelet_dilog(task_path){
+        seTodo(task_path)
+        setOpen(true)
+    }
+    function handleClose(){
+        setOpen(false)
+    }
+    function handleagree(){
+        handleClose()
+        let ubdatedtasks = tasks.filter((e,index)=>{return index!=tasks.indexOf(Todo)})
+        setTasks(ubdatedtasks)
+        localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
+    }
+
+    // ubdate dilog
+    function handleubdate_dilog(task_path){
+        seTodo(task_path)
+        setup({titlel:task_path.title, pharse:task_path.pharse})
+        setOpen2(true);   
+    }
+    const handleClose2 = () => {
+            setOpen2(false);
+    };
+    function handleedit_task(){
+        handleClose2()
+        let ubdatedtasks = tasks.map((task,index)=>{
+                if(tasks.indexOf(Todo)==index){
+                    task.title=taskup.titlel
+                    task.pharse=taskup.pharse
+                    return task
+                }else{
+                    return task
+                }
+        })
+        setTasks(ubdatedtasks)
+        localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
+    }
+ // get data from localstorge
     useEffect(() => {
         let storedTasks = localStorage.getItem("tasks");
         if (storedTasks) {
@@ -51,7 +102,7 @@ export function Contente(){
     let array = useMemo(()=>{
         return tasks.map((item,index) => {
                                 return (
-                                    <Task id={index} key={index} s="a"/>
+                                    <Task details={tasks[index]} key={index} s="a" dilogdelete={handledelet_dilog}  dilogubdate={handleubdate_dilog}/>
                                 );
             })
     },[tasks])
@@ -156,6 +207,71 @@ export function Contente(){
                     </section>
                     <Footer/>
             </main>
+            <Dialog
+                    open={open}
+                    keepMounted
+                    disableScrollLock
+                    onClose={handleClose}
+                    aria-describedby="alert-dialog-slide-description"
+                    role="alertdialog"
+                >
+                    <DialogTitle>{""}</DialogTitle>
+                    <DialogContent>
+                    <DialogContentText id="alert-dialog-slide-description">
+                    
+                    Are you sure you want to delete this task?<br></br>
+                    This action cannot be undone.
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleClose} autoFocus>
+                        Disagree
+                    </Button>
+                    <Button onClick={()=>{handleagree()}}>Agree</Button>
+                    </DialogActions>
+            </Dialog>
+            <Dialog open={open2}
+                            onClose={handleClose2}
+                            disableScrollLock 
+                            keepMounted>
+                            <DialogTitle>Edit</DialogTitle>
+                            <DialogContent>
+                            <DialogContentText>    
+                            </DialogContentText>
+                            <form  id="subscription-form" >
+                                <TextField  
+                                onChange={(e)=>{setup({...taskup,titlel:e.target.value})}}
+                                className="n"  
+                                id="name"
+                                name="email"
+                                margin="dense"
+                                label="Title Task"
+                                fullWidth
+                                autoFocus="true"
+                                value={taskup.titlel}
+                                variant="standard"
+                                />
+                                <TextField
+                                onChange={(e)=>{setup({...taskup,pharse:e.target.value})}}
+                                className="d"
+                                id="details"
+                                name="details"
+                                margin="dense"
+                                autoFocus="true"
+                                value={taskup.pharse}
+                                label="Details Task"
+                                fullWidth
+                                variant="standard"
+                                />
+                            </form>
+                            </DialogContent>
+                            <DialogActions>
+                            <Button onClick={handleClose2}>Cancel</Button>
+                            <Button onClick={handleedit_task} >
+                                Edit
+                            </Button>
+                            </DialogActions>
+            </Dialog>
         </>
     )
 }
