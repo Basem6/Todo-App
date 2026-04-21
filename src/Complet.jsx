@@ -1,7 +1,7 @@
 import { Header } from "./Header"
 import { Task } from "./Task"
 import { useContext , useEffect} from "react"
-import { TasksContext } from "./context"
+import { TasksContext } from "./context.jsx"
 import { Task_complete } from "./Task_complete";
 export function Complete(){
     const { tasks , setTasks } = useContext(TasksContext);

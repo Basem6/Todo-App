@@ -1,5 +1,5 @@
 import { Header } from "./Header"
-import { TasksContext  } from "./context"
+import { TasksContext  } from "./context.jsx"
 import { Task } from "./Task.jsx"
 import {  useContext , useEffect} from "react"
 import { Task_pending } from "./Task_pending.jsx";

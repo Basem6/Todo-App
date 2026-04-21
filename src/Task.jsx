@@ -1,4 +1,5 @@
-import { TasksContext } from "./context.js";
+import { TasksContext  } from "./context.jsx";
+import {useToast} from "./ToastContext.jsx"
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
 import { useContext  } from "react";
@@ -15,6 +16,7 @@ import {
     MenuSubmenuTrigger,
 } from './Menubar';
 export function Task({details , s , dilogdelete , dilogubdate}){
+    const showalert = useToast();
     const {tasks , setTasks} = useContext(TasksContext);
     function check(){ 
             if(details.Priority=="Low Priority"){
@@ -36,6 +38,7 @@ export function Task({details , s , dilogdelete , dilogubdate}){
             return item;
         });
         setTasks(newarr)
+        showalert("success" , "Task is Not Completed Successfuly")
         localStorage.setItem("tasks", JSON.stringify(newarr));
         }else{    
         e.target.className="material-symbols-outlined text-on-primary text-xs"
@@ -47,6 +50,7 @@ export function Task({details , s , dilogdelete , dilogubdate}){
             return item;
         });
         setTasks(newarr)
+        showalert("success" , "Task is Completed Successfuly")
         localStorage.setItem("tasks", JSON.stringify(newarr));
         }   
     }  

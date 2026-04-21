@@ -2,8 +2,6 @@ import { Task } from "./Task.jsx";
 import { Footer } from "./Footer.jsx";
 import { Header } from "./Header.jsx";
 import { useState , useContext , useEffect , useMemo } from "react";
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -17,8 +15,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { TasksContext } from "./context.js";
+import { TasksContext  } from "./context.jsx";
+import { useToast } from "./ToastContext.jsx"
 export function Contente(){
+    const showAlert = useToast()
     const {tasks, setTasks} = useContext(TasksContext);
     const [Todo , seTodo] = useState(null);
     const [open, setOpen] = useState(false);
@@ -33,17 +33,11 @@ export function Contente(){
             let newe = {title: task.title, pharse: task.pharse, Priority: task.Priority, date: task.date, status: "nochecked"};
             let ubdatedtasks = [...tasks, newe]
             setTasks(ubdatedtasks)
+            showAlert("success","Added Task Successfully")
             localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
-            document.querySelector(".alert_success").style.cssText= " opacity: 1;";
-            setTimeout(() => {
-                document.querySelector(".alert_success").style.cssText= " opacity: 0;";
-            },2200)
             setTask({title: "", pharse: "", Priority: "", date: "", status: "nochecked"})
         }else{
-            document.querySelector(".alert").style.cssText= " opacity: 1;";
-            setTimeout(() => {
-                document.querySelector(".alert").style.cssText= " opacity: 0;";
-            },3000)
+            showAlert("warning","Please fill all inputs")
         }
     }
     function handleoption(e){
@@ -65,6 +59,7 @@ export function Contente(){
         handleClose()
         let ubdatedtasks = tasks.filter((e,index)=>{return index!=tasks.indexOf(Todo)})
         setTasks(ubdatedtasks)
+        showAlert("success","Task is deleted Sucessfuly")
         localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
     }
 
@@ -89,6 +84,7 @@ export function Contente(){
                 }
         })
         setTasks(ubdatedtasks)
+        showAlert("success","Task is ubdated Sucessfuly")
         localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
     }
  // get data from localstorge
@@ -109,12 +105,6 @@ export function Contente(){
     return(
         <>
             <main className="flex-1 ml-64 min-h-screen flex flex-col ">
-                    <Stack sx={{ width: '27%' ,position: 'fixed', top: "10%", left: "50%" , zIndex: 1000,transform: 'translateX(-50%)',borderRadius: 8 , transition: 'all 0.3s ease' ,opacity: 0}} spacing={2} className="alert">
-                    <Alert severity="warning">Please fill in all fields before adding a task.</Alert>
-                    </Stack>
-                    <Stack sx={{ width: '27%' ,position: 'fixed', top: "10%", left: "50%" , zIndex: 1000,transform: 'translateX(-50%)',borderRadius: 8 , transition: 'all 0.3s ease' ,opacity: 0}} spacing={2} className="alert_success">
-                    <Alert severity="success">Task added successfully!</Alert>
-                    </Stack>
                     <Header/>
                     <section className="p-10  w-full mx-auto flex flex-col gap-8">
                         <div className="bg-surface-container-lowest p-8 rounded-2xl border border-surface-container/50">

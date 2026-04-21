@@ -1,4 +1,4 @@
-import { TasksContext } from "./context.js";
+import { TasksContext } from "./context.jsx";
 import { useContext } from "react";
 export function Task_complete({id}){ 
     const {tasks} = useContext(TasksContext);

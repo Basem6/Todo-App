@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { TasksContext } from "./context.js";
+import { TasksContext } from "./context.jsx";
 export function Task_pending({id}){
     const {tasks } = useContext(TasksContext);
     if(id===undefined){
