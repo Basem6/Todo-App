@@ -1,7 +1,6 @@
-import {useTasks} from './Tasksprovider.jsx'
-// import { TasksContext } from "./context.jsx";
+import {useReducetodo } from "./Mainreducer.jsx"
 export function Task_pending({id}){
-    const {tasks } = useTasks();
+    const {todos} = useReducetodo();
     if(id===undefined){
         return(
             <div className="grow bg-surface-container-lowest rounded-2xl p-8 transition-all hover:shadow-sm">
@@ -13,7 +12,7 @@ export function Task_pending({id}){
         );
     }
     else{
-    let details = tasks[id];
+    let details = todos[id];
     function check(){ 
             if(details.Priority=="Low Priority"){
                 return { textColor: "text-on-tertiary", bgColor: "bg-tertiary-container" }

@@ -1,20 +1,18 @@
 import { Header } from "./Header"
-// import { TasksContext  } from "./context.jsx"
 import { Task } from "./Task.jsx"
-import {   useEffect} from "react"
+import { useEffect} from "react"
 import { Task_pending } from "./Task_pending.jsx";
-import {useTasks} from './Tasksprovider.jsx'
+import {useReducetodo } from "./Mainreducer.jsx"
 export function Pending(){
-    const { tasks ,setTasks } = useTasks();
+    const { todos , dispatch } = useReducetodo();
     useEffect(() => {
-                let storedTasks = localStorage.getItem("tasks");
-                if (storedTasks) {
-                    setTasks(JSON.parse(storedTasks));
-                }
+            dispatch({
+                    type:"get",
+                }) 
     }, []);
     let id_pending_task;
     let first=true;
-    let pending_tasks = tasks.filter((task,index)=>{
+    let pending_tasks = todos.filter((task,index)=>{
         if(task.status=="nochecked"){
             if(first){
                 // eslint-disable-next-line react-hooks/immutability
@@ -26,8 +24,8 @@ export function Pending(){
         
     })
     let parsent;
-    if(tasks.length!=0){
-     parsent=  Math.round(((tasks.length - pending_tasks.length) / tasks.length) * 100).toString();
+    if(todos.length!=0){
+     parsent=  Math.round(((todos.length - pending_tasks.length) / todos.length) * 100).toString();
     }else{
     parsent ="0"
     }
@@ -44,7 +42,7 @@ export function Pending(){
             <div className="grow bg-primary text-on-primary rounded-2xl p-8 flex flex-col justify-between overflow-hidden relative">
             <div className="relative z-10">
             <h4 className="text-lg font-bold mb-1">Weekly Velocity</h4>
-            <p className="text-on-primary/70 text-sm">{tasks.length - pending_tasks.length} tasks completed today</p>
+            <p className="text-on-primary/70 text-sm">{todos.length - pending_tasks.length} tasks completed today</p>
             </div>
             <div className="mt-8 relative z-10">
             <div className="text-5xl font-black mb-2">{parsent}%</div>
@@ -69,10 +67,10 @@ export function Pending(){
             </div>
             </div>
             <div className="space-y-3">        
-            {tasks.map((item,index) => {
+            {todos.map((item,index) => {
                 if(item.status=="nochecked" && index!=id_pending_task){
                     return (
-                    <Task details={tasks[index]} key={index+1} s="p"/>
+                    <Task details={todos[index]} key={index+1} s="p"/>
                 );
                 }
             })}

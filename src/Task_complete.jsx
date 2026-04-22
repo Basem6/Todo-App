@@ -1,8 +1,7 @@
-// import { TasksContext } from "./context.jsx";
-import {useTasks} from './Tasksprovider.jsx'
+import {useReducetodo } from "./Mainreducer.jsx"
 export function Task_complete({id}){ 
-    const {tasks} = useTasks();
-    let details = tasks[id];
+    const {todos} = useReducetodo();
+    let details = todos[id];
     function check(){ 
             if(details.Priority=="Low Priority"){
                 return { textColor: "text-on-tertiary", bgColor: "bg-tertiary-container" }

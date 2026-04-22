@@ -1,6 +1,5 @@
 import { NavLink } from "react-router-dom";
 export function Aside(){
-    
     document.querySelectorAll(".link").forEach((e)=>{
         e.addEventListener("click",function(){
             document.querySelectorAll(".link").forEach((e)=>{

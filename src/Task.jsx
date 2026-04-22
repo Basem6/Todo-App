@@ -1,9 +1,7 @@
-// import { TasksContext  } from "./context.jsx";
 import {useToast} from "./ToastContext.jsx"
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-// import { useContext  } from "react";
-import {useTasks} from './Tasksprovider.jsx'
+import {useReducetodo } from "./Mainreducer.jsx"
 import {
     Menubar,
     MenuRoot,
@@ -17,8 +15,8 @@ import {
     MenuSubmenuTrigger,
 } from './Menubar';
 export function Task({details , s , dilogdelete , dilogubdate}){
+    const {dispatch} = useReducetodo()
     const {showAlert} = useToast();
-    const {tasks , setTasks} = useTasks();
     function check(){ 
             if(details.Priority=="Low Priority"){
                 return { textColor: "text-on-tertiary", bgColor: "bg-tertiary-container" }
@@ -29,30 +27,15 @@ export function Task({details , s , dilogdelete , dilogubdate}){
             }
     }
     function  handlecheckbox(e) {
+        dispatch({type:"togglecomplete",payload:{task:details}})
         if(details.status=="checked"){
         e.target.className="material-symbols-outlined text-primary text-xs opacity-0 group-hover:opacity-100"
         e.target.parentElement.className="flex items-center justify-center size-6 transition-colors  rounded-lg border-2 border-primary-fixed-dim hover:bg-primary-fixed-dim group"
-        let newarr = tasks.map((item,index)=>{
-            if(index==tasks.indexOf(details)){
-                return {...item, status: "nochecked"}
-            }
-            return item;
-        });
-        setTasks(newarr)
         showAlert("success" , "Task is Not Completed Successfuly")
-        localStorage.setItem("tasks", JSON.stringify(newarr));
         }else{    
         e.target.className="material-symbols-outlined text-on-primary text-xs"
         e.target.parentElement.className="flex items-center justify-center size-6 rounded-lg bg-primary border-2 border-primary transition-colors"
-        let newarr = tasks.map((item,index)=>{
-            if(index==tasks.indexOf(details)){
-                return {...item, status: "checked"}
-            }
-            return item;
-        });
-        setTasks(newarr)
         showAlert("success" , "Task is Completed Successfuly")
-        localStorage.setItem("tasks", JSON.stringify(newarr));
         }   
     }  
     let statue_task = details.status === "checked" ? "done" : "calendar_today";

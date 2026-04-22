@@ -1,17 +1,15 @@
 import { Header } from "./Header"
 import { Task } from "./Task"
 import { useEffect} from "react"
-import {useTasks} from './Tasksprovider.jsx'
-// import { TasksContext } from "./context.jsx"
 import { Task_complete } from "./Task_complete";
+import {useReducetodo } from "./Mainreducer.jsx"
 export function Complete(){
-    const { tasks , setTasks } = useTasks();
+    const { todos , dispatch} = useReducetodo();
     useEffect(() => {
-            let storedTasks = localStorage.getItem("tasks");
-            if (storedTasks) {
-                setTasks(JSON.parse(storedTasks));
-            }
-        }, []);
+        dispatch({
+                type:"get",
+            }) 
+    }, []);
     return(
         <main className="flex-1 flex flex-col min-h-screen relative bg-background ml-64">
             <Header/>
@@ -25,7 +23,7 @@ export function Complete(){
             <div className="bg-surface-container-lowest p-6 rounded-2xl">
             <p className="text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-4">Productivity Pulse</p>
             <div className="flex items-end gap-2 mb-2">
-            <span className="text-5xl font-black text-on-background tracking-tighter">{tasks.filter(t => t.status === "checked").length}</span>
+            <span className="text-5xl font-black text-on-background tracking-tighter">{todos.filter(t => t.status === "checked").length}</span>
             <span className="text-sm font-semibold text-tertiary-fixed-dim mb-2">Tasks Done</span>
             </div>
             <p className="text-sm text-on-surface-variant leading-relaxed">+12% from last week. You're maintaining a strong momentum.</p>
@@ -46,7 +44,7 @@ export function Complete(){
             </div>
             </div>
             <div className="divide-y divide-surface-container-low">
-            {tasks.map((item,index)=>{
+            {todos.map((item,index)=>{
                 if(item.status=="checked"){
                     return(
                         <Task_complete id={index} key={index+1} />

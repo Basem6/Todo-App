@@ -1,7 +1,7 @@
 import { Task } from "./Task.jsx";
 import { Footer } from "./Footer.jsx";
 import { Header } from "./Header.jsx";
-import { useState , useEffect , useMemo } from "react";
+import { useState , useEffect , useMemo} from "react";
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,31 +15,26 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-// import { TasksContext  } from "./context.jsx";
 import { useToast } from "./ToastContext.jsx"
-import {useTasks} from './Tasksprovider.jsx'
+import {useReducetodo } from "./Mainreducer.jsx"
 export function Contente(){
+    const {todos , dispatch}  = useReducetodo()
     const {showAlert} = useToast();
-    const {tasks, setTasks} = useTasks();
     const [Todo , seTodo] = useState(null);
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
     const [taskup , setup] = useState({titlel:"" , pharse:""});
-    let [task , setTask] = useState({title: "", pharse: "This is a new task.", Priority: "" , date: "" , status: "nochecked"});
+    const [task , setTask] = useState({title: "", pharse: "This is a new task.", Priority: "" , date: "" , status: "nochecked"});
     function handleaddtask(e){
         setTask({...task, title: e.target.value , pharse: "This is a new task." , Priority: task.Priority, date: task.date, status: task.status});
     }
     function handleclickbutton(){
-        if(task.title.trim() !== "" && task.Priority.trim() !== "" && task.date.trim() !== ""){
-            let newe = {title: task.title, pharse: task.pharse, Priority: task.Priority, date: task.date, status: "nochecked"};
-            let ubdatedtasks = [...tasks, newe]
-            setTasks(ubdatedtasks)
+            dispatch({
+                type:"added",
+                payload:{inputtitle:task.title , inputPriority:task.Priority , inputdate:task.date , statue:task.status}
+            })
             showAlert("success","Added Task Successfully")
-            localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
-            setTask({title: "", pharse: "", Priority: "", date: "", status: "nochecked"})
-        }else{
-            showAlert("warning","Please fill all inputs")
-        }
+            setTask({title: "", pharse: "This is a new task", Priority: "", date: "", status: "nochecked"})
     }
     function handleoption(e){
         setTask({...task, Priority: e.target.value})
@@ -58,10 +53,11 @@ export function Contente(){
     }
     function handleagree(){
         handleClose()
-        let ubdatedtasks = tasks.filter((e,index)=>{return index!=tasks.indexOf(Todo)})
-        setTasks(ubdatedtasks)
         showAlert("success","Task is deleted Sucessfuly")
-        localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
+        dispatch({
+                type:"deleted",
+                payload:{Todo}
+            })
     }
 
     // ubdate dilog
@@ -75,34 +71,28 @@ export function Contente(){
     };
     function handleedit_task(){
         handleClose2()
-        let ubdatedtasks = tasks.map((task,index)=>{
-                if(tasks.indexOf(Todo)==index){
-                    task.title=taskup.titlel
-                    task.pharse=taskup.pharse
-                    return task
-                }else{
-                    return task
-                }
-        })
-        setTasks(ubdatedtasks)
-        showAlert("success","Task is ubdated Sucessfuly")
-        localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
+        showAlert("success","Task is ubdated Sucessfuly") 
+        dispatch({
+                type:"ubdated",
+                payload:{Todo,pharseinput:taskup.pharse ,titleinput:taskup.titlel }
+            }) 
     }
+
  // get data from localstorge
     useEffect(() => {
-        let storedTasks = localStorage.getItem("tasks");
-        if (storedTasks) {
-            setTasks(JSON.parse(storedTasks));
-        }
+        dispatch({
+                type:"get",
+            }) 
     }, []);
+
     //cashing with useMemo
     let array = useMemo(()=>{
-        return tasks.map((item,index) => {
+        return todos.map((item,index) => {
                                 return (
-                                    <Task details={tasks[index]} key={index} s="a" dilogdelete={handledelet_dilog}  dilogubdate={handleubdate_dilog}/>
+                                    <Task details={todos[index]} key={index} s="a" dilogdelete={handledelet_dilog}  dilogubdate={handleubdate_dilog}/>
                                 );
             })
-    },[tasks])
+    },[todos])
     return(
         <>
             <main className="flex-1 ml-64 min-h-screen flex flex-col ">
@@ -138,7 +128,7 @@ export function Contente(){
                         <span className="material-symbols-outlined text-outline text-lg mr-2">calendar_month</span>
                         <input className="bg-transparent border-none w-full py-4 text-xs font-semibold focus:ring-0 placeholder:text-outline" placeholder="Set Date" type="text" value={task.date} onChange={(e)=>{handledate(e)}}/>
                         </div>
-                        <button className="bg-primary text-on-primary px-8 rounded-xl font-bold text-sm hover:shadow-lg hover:shadow-primary/20 transition-all" onClick={(e)=>{handleclickbutton(e)}}>Add Task</button>
+                        <button className={`bg-primary text-on-primary px-8 rounded-xl font-bold text-sm hover:shadow-lg hover:shadow-primary/20 transition-all ${!task.title || !task.Priority || !task.date?"notclick":""}`} onClick={(e)=>{handleclickbutton(e)}}>Add Task</button>
                         </div>
                         </div>
                         </div>
@@ -146,7 +136,7 @@ export function Contente(){
                         <div className="flex items-center justify-between">
                         <div>
                         <h3 className="text-2xl font-bold tracking-tight">Today's Focus</h3>
-                        <p className="text-sm text-on-surface-variant mt-1">You have {tasks.length} tasks to complete today.</p>
+                        <p className="text-sm text-on-surface-variant mt-1">You have {todos.length} tasks to complete today.</p>
                         </div>
                         <div className="flex items-center gap-3">
                         <div className="flex bg-surface-container-low p-1 rounded-xl">
