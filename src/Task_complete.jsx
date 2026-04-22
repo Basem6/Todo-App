@@ -1,7 +1,7 @@
-import { TasksContext } from "./context.jsx";
-import { useContext } from "react";
+// import { TasksContext } from "./context.jsx";
+import {useTasks} from './Tasksprovider.jsx'
 export function Task_complete({id}){ 
-    const {tasks} = useContext(TasksContext);
+    const {tasks} = useTasks();
     let details = tasks[id];
     function check(){ 
             if(details.Priority=="Low Priority"){

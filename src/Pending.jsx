@@ -1,10 +1,11 @@
 import { Header } from "./Header"
-import { TasksContext  } from "./context.jsx"
+// import { TasksContext  } from "./context.jsx"
 import { Task } from "./Task.jsx"
-import {  useContext , useEffect} from "react"
+import {   useEffect} from "react"
 import { Task_pending } from "./Task_pending.jsx";
+import {useTasks} from './Tasksprovider.jsx'
 export function Pending(){
-    const { tasks ,setTasks } = useContext(TasksContext);
+    const { tasks ,setTasks } = useTasks();
     useEffect(() => {
                 let storedTasks = localStorage.getItem("tasks");
                 if (storedTasks) {

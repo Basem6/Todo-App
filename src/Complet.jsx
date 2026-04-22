@@ -1,10 +1,11 @@
 import { Header } from "./Header"
 import { Task } from "./Task"
-import { useContext , useEffect} from "react"
-import { TasksContext } from "./context.jsx"
+import { useEffect} from "react"
+import {useTasks} from './Tasksprovider.jsx'
+// import { TasksContext } from "./context.jsx"
 import { Task_complete } from "./Task_complete";
 export function Complete(){
-    const { tasks , setTasks } = useContext(TasksContext);
+    const { tasks , setTasks } = useTasks();
     useEffect(() => {
             let storedTasks = localStorage.getItem("tasks");
             if (storedTasks) {

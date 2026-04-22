@@ -9,14 +9,14 @@ export function ToastContext({children}){
         setshowalert({statue:false , type : type ,  content:content})
         }, 1500);
     }
-    
     return(
-            <Alertshow.Provider value={showAlert}>
+            <Alertshow.Provider value={{showAlert}}>
                 <Snacbar open={showalert.statue} statue={showalert.type} content={showalert.content}></Snacbar>
                 {children}
             </Alertshow.Provider>
     ) 
 }
-export  const useToast = ()=>{
+export const useToast = ()=>{
     return useContext(Alertshow)
-} 
+}
+

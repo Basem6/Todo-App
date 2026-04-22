@@ -1,7 +1,7 @@
-import { useContext } from "react";
-import { TasksContext } from "./context.jsx";
+import {useTasks} from './Tasksprovider.jsx'
+// import { TasksContext } from "./context.jsx";
 export function Task_pending({id}){
-    const {tasks } = useContext(TasksContext);
+    const {tasks } = useTasks();
     if(id===undefined){
         return(
             <div className="grow bg-surface-container-lowest rounded-2xl p-8 transition-all hover:shadow-sm">

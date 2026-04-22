@@ -1,8 +1,9 @@
-import { TasksContext  } from "./context.jsx";
+// import { TasksContext  } from "./context.jsx";
 import {useToast} from "./ToastContext.jsx"
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditNoteIcon from '@mui/icons-material/EditNote';
-import { useContext  } from "react";
+// import { useContext  } from "react";
+import {useTasks} from './Tasksprovider.jsx'
 import {
     Menubar,
     MenuRoot,
@@ -16,8 +17,8 @@ import {
     MenuSubmenuTrigger,
 } from './Menubar';
 export function Task({details , s , dilogdelete , dilogubdate}){
-    const showalert = useToast();
-    const {tasks , setTasks} = useContext(TasksContext);
+    const {showAlert} = useToast();
+    const {tasks , setTasks} = useTasks();
     function check(){ 
             if(details.Priority=="Low Priority"){
                 return { textColor: "text-on-tertiary", bgColor: "bg-tertiary-container" }
@@ -38,7 +39,7 @@ export function Task({details , s , dilogdelete , dilogubdate}){
             return item;
         });
         setTasks(newarr)
-        showalert("success" , "Task is Not Completed Successfuly")
+        showAlert("success" , "Task is Not Completed Successfuly")
         localStorage.setItem("tasks", JSON.stringify(newarr));
         }else{    
         e.target.className="material-symbols-outlined text-on-primary text-xs"
@@ -50,7 +51,7 @@ export function Task({details , s , dilogdelete , dilogubdate}){
             return item;
         });
         setTasks(newarr)
-        showalert("success" , "Task is Completed Successfuly")
+        showAlert("success" , "Task is Completed Successfuly")
         localStorage.setItem("tasks", JSON.stringify(newarr));
         }   
     }  
@@ -74,14 +75,15 @@ export function Task({details , s , dilogdelete , dilogubdate}){
                             <span className="text-sm">{date_task}</span>
                         </div>       
                         <span className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider ${textColor}   ${bgColor}`}>{details.Priority}</span>
+                        <div className={`${s=="p"?"hidden":"flex"}`}>
                         <Menubar   sx={{
                             "& .MuiPaper-root": {
                             backgroundColor: "transparent",
                             boxShadow: "none"
                             }
                         }}>
-                            <MenuRoot sx={{ backgroundColor: "red" }}>
-                                <MenuTrigger sx={{ backgroundColor: "white" }}>
+                            <MenuRoot  sx={{ backgroundColor: "red" }} >
+                                <MenuTrigger  sx={{ backgroundColor: "white" }}>
                                     <span className="material-symbols-outlined text-outline bg-transparent relative ">
                                         drag_indicator
                                     </span>
@@ -96,6 +98,7 @@ export function Task({details , s , dilogdelete , dilogubdate}){
                                 </MenuPortal>
                             </MenuRoot>
                         </Menubar>
+                        </div>
                 </div>
     </div>
     )

@@ -37,7 +37,7 @@ export function Aside(){
                         <div className="pt-6 pb-2 px-4">
                             <span className="text-[11px] font-bold text-slate-400 uppercase tracking-widest">Categories</span>
                         </div>
-                    <NavLink className={({ isActive }) => `link flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 ease-in-out ${isActive ? 'active' : ''}`} to="/work">
+                    {/* <NavLink className={({ isActive }) => `link flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 ease-in-out ${isActive ? 'active' : ''}`} to="/work">
                         <span className="material-symbols-outlined">work_outline</span>
                         <span className="text-sm font-medium Inter">Work</span>
                     </NavLink>
@@ -48,8 +48,7 @@ export function Aside(){
                     <NavLink className={({ isActive }) => `link flex items-center gap-3 px-4 py-3 text-slate-600 dark:text-slate-400 hover:text-slate-900 hover:bg-slate-200 dark:hover:bg-slate-800 rounded-xl transition-all duration-200 ease-in-out ${isActive ? 'active' : ''}`} to="/study">
                         <span className="material-symbols-outlined">school</span>
                         <span className="text-sm font-medium Inter">Study</span>
-                    </NavLink>
-                    
+                    </NavLink> */}
                 </nav>
                 <button className="mt-auto flex items-center justify-center gap-2 px-4 py-3 bg-slate-200/50 dark:bg-slate-800/50 border-2 border-dashed border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-400 rounded-xl hover:bg-slate-200 transition-colors">
                     <span className="material-symbols-outlined text-sm">add</span>

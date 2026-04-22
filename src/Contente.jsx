@@ -1,7 +1,7 @@
 import { Task } from "./Task.jsx";
 import { Footer } from "./Footer.jsx";
 import { Header } from "./Header.jsx";
-import { useState , useContext , useEffect , useMemo } from "react";
+import { useState , useEffect , useMemo } from "react";
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -15,11 +15,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import Slide from '@mui/material/Slide';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import { TasksContext  } from "./context.jsx";
+// import { TasksContext  } from "./context.jsx";
 import { useToast } from "./ToastContext.jsx"
+import {useTasks} from './Tasksprovider.jsx'
 export function Contente(){
-    const showAlert = useToast()
-    const {tasks, setTasks} = useContext(TasksContext);
+    const {showAlert} = useToast();
+    const {tasks, setTasks} = useTasks();
     const [Todo , seTodo] = useState(null);
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
