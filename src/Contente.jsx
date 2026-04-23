@@ -27,15 +27,15 @@ export function Contente(){
     const [data , setdata]= useState("");
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
-    const [taskup , setup] = useState({titlel:"" , pharse:""});
-    const [task , setTask] = useState({title: "", pharse: "This is a new task.", Priority: "" , date: "" , status: "nochecked" });
+    const [taskup , setup] = useState({titlel:"" , pharse:"" , ubdate:false});
+    const [task , setTask] = useState({title: "", pharse: "This is a new task.", Priority: "" , date: "" , status: "nochecked" ,ubdate:false});
     function handleaddtask(e){
         setTask({...task, title: e.target.value , pharse: "This is a new task." , Priority: task.Priority, date: task.date, status: task.status});
     }
     function handleclickbutton(){
             dispatch({
                 type:"added",
-                payload:{inputtitle:task.title , inputPriority:task.Priority , inputdate:task.date , statue:task.status}
+                payload:{inputtitle:task.title , inputPriority:task.Priority , inputdate:task.date , statue:task.status }
             })
             showAlert("success","Added Task Successfully")
             setTask({title: "", pharse: "This is a new task", Priority: "", date: "", status: "nochecked"})
@@ -67,7 +67,7 @@ export function Contente(){
     // ubdate dilog
     function handleubdate_dilog(task_path){
         seTodo(task_path)
-        setup({titlel:task_path.title, pharse:task_path.pharse })
+        setup({titlel:task_path.title, pharse:task_path.pharse , ubdate:true })
         setOpen2(true);   
     }
     const handleClose2 = () => {
@@ -114,7 +114,12 @@ export function Contente(){
             const result = todos.filter((e) =>
             e.title.toLowerCase().startsWith((data.toLowerCase()))
             );
+            if(result!=[]){
             setFilteredTodos(result);
+            }else{
+                
+                setFilteredTodos(null);
+            }
             setLoading(false);
         }, 300); // مش لازم 2000
 
@@ -163,7 +168,7 @@ export function Contente(){
                         <div className="flex items-center justify-between">
                         <div>
                         <h3 className="text-2xl font-bold tracking-tight">Today's Focus</h3>
-                        <p className="text-sm text-on-surface-variant mt-1">You have {todos.length} tasks to complete today.</p>
+                        <p className="text-sm text-on-surface-variant mt-1">You have {filteredTodos.length} tasks to complete today.</p>
                         </div>
                         <div className="flex items-center gap-3">
                         <div className="flex bg-surface-container-low p-1 rounded-xl">
@@ -186,7 +191,7 @@ export function Contente(){
                             {/* {array} */}
                             {loading ? (
                                     <div className="mt-20 min-w-full flex justify-center items-center"><Loader></Loader></div>
-                                    ) : (
+                                    ) :( filteredTodos.length !=0 ?
                                     filteredTodos.map((item, index) => (
                                         <Task
                                         key={index}
@@ -194,7 +199,7 @@ export function Contente(){
                                         dilogdelete={handledelet_dilog}
                                         dilogubdate={handleubdate_dilog}
                                         />
-                                    ))
+                                    )) : <h1 className="mt-20 min-w-full flex justify-center items-center font-bold text-2xl">Not found Tasks</h1>
                                     )}
                         </div>
                         </div>

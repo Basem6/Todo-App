@@ -19,12 +19,19 @@ export default function reducer(currentstate , action){
                             if(currentstate.indexOf(action.payload.Todo)==index){
                                 task.title=action.payload.titleinput
                                 task.pharse=action.payload.pharseinput
+                                task.ubdate = Date.now()
+                                console.log(task)
                                 return task
                             }else{
                                 return task
                             }
                     })
-                    localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
+                    // Filter out ubdate flag before saving to localStorage
+                    let tasksToSave = ubdatedtasks.map(task => {
+                        const {ubdate, ...taskWithoutFlag} = task
+                        return taskWithoutFlag
+                    })
+                    localStorage.setItem("tasks", JSON.stringify(tasksToSave));
                     return ubdatedtasks
         }
         case "togglecomplete":{
