@@ -14,7 +14,9 @@ import {
     MenuSubmenuRoot,
     MenuSubmenuTrigger,
 } from './Menubar';
-export function Task({details , s , dilogdelete , dilogubdate}){
+import { useState , useEffect } from "react";
+export function Task({details , s , dilogdelete , dilogubdate }){
+    const [ubdated , setubdated] = useState(false)
     const {dispatch} = useReducetodo()
     const {showAlert} = useToast();
     function check(){ 
@@ -26,6 +28,17 @@ export function Task({details , s , dilogdelete , dilogubdate}){
                 return { textColor: "text-on-error-container", bgColor: "bg-error-container" }
             }
     }
+    useEffect(() => {
+        if (details.ubdate) {
+            setubdated(true);
+            const timer = setTimeout(() => {
+            setubdated(false);
+            }, 2000);
+
+            return () => clearTimeout(timer);
+        }
+        }, [details.ubdate]);
+    console.log(details.ubdate)
     function  handlecheckbox(e) {
         dispatch({type:"togglecomplete",payload:{task:details}})
         if(details.status=="checked"){
@@ -42,7 +55,7 @@ export function Task({details , s , dilogdelete , dilogubdate}){
     let date_task = details.status === "checked" ? "Completed" : `${details.date}`;
     let { textColor, bgColor } = check()
     return(
-        <div className="task-card flex items-center justify-between p-6 bg-surface-container-lowest rounded-2xl border border-transparent transition-all cursor-pointer" >
+        <div className={`task-card flex items-center justify-between p-6  rounded-2xl border border-transparent transition-all cursor-pointer duration-500 ${ubdated ?"bg-lime-200/70":"bg-surface-container-lowest"}` } >
                 <div className={`flex items-center gap-6 `} >
                         <div  className={`${s=="p"?"hidden":"flex"} items-center justify-center size-6 rounded-lg border-2 border-primary-fixed-dim hover:bg-primary-fixed-dim transition-colors group ${details.status === "checked" ? "flex items-center justify-center size-6 rounded-lg bg-primary border-2 border-primary transition-colors border-none" : ""}`} id="r" onClick={(e)=>{handlecheckbox(e)}}>
                             <span className={`${details.status === "checked" ? "material-symbols-outlined text-on-primary text-xs" : "material-symbols-outlined text-primary text-xs opacity-0 group-hover:opacity-100"}`}>check</span>
@@ -83,6 +96,6 @@ export function Task({details , s , dilogdelete , dilogubdate}){
                         </Menubar>
                         </div>
                 </div>
-    </div>
+        </div>
     )
     }

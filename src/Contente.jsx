@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
+import {Loader} from './Loader.jsx';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -18,13 +19,16 @@ import Select from '@mui/material/Select';
 import { useToast } from "./ToastContext.jsx"
 import {useReducetodo } from "./Mainreducer.jsx"
 export function Contente(){
+    const [filteredTodos, setFilteredTodos] = useState([]);
+    const [loading, setLoading] = useState(false);
     const {todos , dispatch}  = useReducetodo()
     const {showAlert} = useToast();
     const [Todo , seTodo] = useState(null);
+    const [data , setdata]= useState("");
     const [open, setOpen] = useState(false);
     const [open2, setOpen2] = useState(false);
     const [taskup , setup] = useState({titlel:"" , pharse:""});
-    const [task , setTask] = useState({title: "", pharse: "This is a new task.", Priority: "" , date: "" , status: "nochecked"});
+    const [task , setTask] = useState({title: "", pharse: "This is a new task.", Priority: "" , date: "" , status: "nochecked" });
     function handleaddtask(e){
         setTask({...task, title: e.target.value , pharse: "This is a new task." , Priority: task.Priority, date: task.date, status: task.status});
     }
@@ -63,7 +67,7 @@ export function Contente(){
     // ubdate dilog
     function handleubdate_dilog(task_path){
         seTodo(task_path)
-        setup({titlel:task_path.title, pharse:task_path.pharse})
+        setup({titlel:task_path.title, pharse:task_path.pharse })
         setOpen2(true);   
     }
     const handleClose2 = () => {
@@ -74,10 +78,12 @@ export function Contente(){
         showAlert("success","Task is ubdated Sucessfuly") 
         dispatch({
                 type:"ubdated",
-                payload:{Todo,pharseinput:taskup.pharse ,titleinput:taskup.titlel }
+                payload:{Todo,pharseinput:taskup.pharse ,titleinput:taskup.titlel}
             }) 
     }
-
+    function handlesearch(e){
+        setdata(e.target.value)
+    }
  // get data from localstorge
     useEffect(() => {
         dispatch({
@@ -86,17 +92,38 @@ export function Contente(){
     }, []);
 
     //cashing with useMemo
-    let array = useMemo(()=>{
-        return todos.map((item,index) => {
-                                return (
-                                    <Task details={todos[index]} key={index} s="a" dilogdelete={handledelet_dilog}  dilogubdate={handleubdate_dilog}/>
-                                );
-            })
-    },[todos])
+    // let array = useMemo(()=>{
+    //     return todos.map((item,index) => {
+    //                             return (
+    //                                 <Task details={todos[index]} key={index} s="a" dilogdelete={handledelet_dilog}  dilogubdate={handleubdate_dilog}/>
+    //                             );
+    //     })
+
+    // },[todos])
+
+    useEffect(() => {
+        if (data === "") {
+            setLoading(false);
+            setFilteredTodos(todos);
+            return;
+        }
+
+        setLoading(true);
+
+        const timer = setTimeout(() => {
+            const result = todos.filter((e) =>
+            e.title.toLowerCase().startsWith((data.toLowerCase()))
+            );
+            setFilteredTodos(result);
+            setLoading(false);
+        }, 300); // مش لازم 2000
+
+        return () => clearTimeout(timer);
+    }, [data, todos]);
     return(
         <>
             <main className="flex-1 ml-64 min-h-screen flex flex-col ">
-                    <Header/>
+                    <Header handlechange={handlesearch} data={data}/>
                     <section className="p-10  w-full mx-auto flex flex-col gap-8">
                         <div className="bg-surface-container-lowest p-8 rounded-2xl border border-surface-container/50">
                         <h2 className="text-lg font-bold mb-6">Quick Add Task</h2>
@@ -156,7 +183,19 @@ export function Contente(){
                         </div>
                         </div>
                         <div className="grid gap-4 tasks_place">
-                            {array}
+                            {/* {array} */}
+                            {loading ? (
+                                    <div className="mt-20 min-w-full flex justify-center items-center"><Loader></Loader></div>
+                                    ) : (
+                                    filteredTodos.map((item, index) => (
+                                        <Task
+                                        key={index}
+                                        details={item}
+                                        dilogdelete={handledelet_dilog}
+                                        dilogubdate={handleubdate_dilog}
+                                        />
+                                    ))
+                                    )}
                         </div>
                         </div>
                         <div className="mt-12">

@@ -9,6 +9,7 @@ import {Reducertodo} from './Mainreducer.jsx'
 import {ToastContext} from './ToastContext.jsx'
 import { Routes, Route } from 'react-router-dom'
 function App() {
+  // localStorage.clear()
   return (
     <ToastContext>
       <Reducertodo>
