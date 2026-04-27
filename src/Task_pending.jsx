@@ -24,8 +24,8 @@ export function Task_pending({id}){
     }
     let {bgColor , textColor} = check()
     return(
-        <div className="grow bg-surface-container-lowest rounded-2xl p-8 transition-all hover:shadow-sm">
-            <div className="flex items-center justify-between mb-8">
+        <div className="grow bg-surface-container-lowest rounded-2xl p-8 transition-all hover:shadow-sm max-w-full">
+            <div className="flex items-center justify-between mb-8 flex-wrap gap-3 wrap-anywhere">
             <div>
             <span className="text-[10px] font-bold uppercase tracking-widest text-primary-dim mb-1 block">Critical Focus</span>
             <h3 className="text-2xl font-bold text-on-surface">{details.title}</h3>

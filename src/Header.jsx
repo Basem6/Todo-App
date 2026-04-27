@@ -1,6 +1,6 @@
 export function Header({handlechange , data }){
     return(
-    <header className="h-20 flex center justify-around  px-10 bg-background backdrop-blur-md sticky top-0 z-20">
+    <header className="h-20 flex center justify-around gap-2 lg:px-10 px-4 bg-background backdrop-blur-md sticky top-0 z-20">
                         <div className="flex items-center gap-6 flex-1">
                         <div className="relative w-full max-w-md">
                             <span className="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant text-xl ">
@@ -8,7 +8,7 @@ export function Header({handlechange , data }){
                             </span>
                             <input
                             className="w-full bg-surface-container-low border-none rounded-2xl py-3 pl-12 pr-4 focus:ring-2 focus:ring-primary/20 text-sm transition-all "
-                            placeholder="Search for tasks, dates..."
+                            placeholder="Search for tasks"
                             type="text"
                             value={data}
                             onChange={((e)=>{handlechange(e)})}
@@ -16,7 +16,7 @@ export function Header({handlechange , data }){
                         </div>
                         </div>
                         <div className="flex items-center gap-4">
-                        <button className="size-10 flex items-center justify-center rounded-2xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-colors">
+                        <button className="hidden size-10 lg:flex items-center justify-center rounded-2xl bg-surface-container-low text-on-surface-variant hover:bg-surface-container-high transition-colors">
                             <span className="material-symbols-outlined">notifications</span>
                         </button>
 

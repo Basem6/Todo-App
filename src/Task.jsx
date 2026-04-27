@@ -53,8 +53,8 @@ export function Task({details , s , dilogdelete , dilogubdate }){
     let date_task = details.status === "checked" ? "Completed" : `${details.date}`;
     let { textColor, bgColor } = check()
     return(
-        <div className={`task-card flex items-center justify-between p-6  rounded-2xl border border-transparent transition-all cursor-pointer duration-500 ${ubdated ?"bg-[#D9F99D]":"bg-surface-container-lowest"}` } >
-                <div className={`flex items-center gap-6 `} >
+        <div className={`task-card min-w-full flex lg:flex-row  flex-col lg:items-center lg:gap-0.5 items-start gap-4 justify-between lg:p-6  p-4 rounded-2xl wrap-anywhere border border-transparent transition-all cursor-pointer duration-500 ${ubdated ?"bg-[#D9F99D]":"bg-surface-container-lowest"}` } >
+                <div className={`flex items-center lg:gap-6  gap-1.5  `} >
                         <div  className={`${s=="p"?"hidden":"flex"} items-center justify-center size-6 rounded-lg border-2 border-primary-fixed-dim hover:bg-primary-fixed-dim transition-colors group ${details.status === "checked" ? "flex items-center justify-center size-6 rounded-lg bg-primary border-2 border-primary transition-colors border-none" : ""}`} id="r" onClick={(e)=>{handlecheckbox(e)}}>
                             <span className={`${details.status === "checked" ? "material-symbols-outlined text-on-primary text-xs" : "material-symbols-outlined text-primary text-xs opacity-0 group-hover:opacity-100"}`}>check</span>
                         </div>
@@ -63,13 +63,13 @@ export function Task({details , s , dilogdelete , dilogubdate }){
                             <p className="text-xs text-on-surface-variant mt-1">{details.pharse}</p>
                         </div>
                 </div>
-                <div className="flex items-center gap-8">
+                <div className="flex items-center justify-around">
                         <div className="flex items-center gap-2 text-on-surface-variant">
-                            <span className="material-symbols-outlined text-lg"> {statue_task}</span>
-                            <span className="text-sm">{date_task}</span>
+                            <span className="material-symbols-outlined text-lg "> {statue_task}</span>
+                            <span className="text-sm whitespace-nowrap min-w-[80px] max-w-[80px]">{date_task}</span>
                         </div>       
-                        <span className={`px-3 py-1.5 rounded-lg text-[10px] font-bold uppercase tracking-wider ${textColor}   ${bgColor}`}>{details.Priority}</span>
-                        <div className={`${s=="p"?"hidden":"flex"}`}>
+                        <span className={`px-3 py-1.5  rounded-lg text-[10px] font-bold uppercase tracking-wider  ${textColor}   ${bgColor} whitespace-nowrap`}>{details.Priority}</span>
+                        <div className={` ${s=="p"?"hidden":"flex"}`}>
                         <Menubar   sx={{
                             "& .MuiPaper-root": {
                             backgroundColor: "transparent",

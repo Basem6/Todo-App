@@ -1,6 +1,8 @@
 import { Header } from "./Header"
 import { Task } from "./Task.jsx"
+import { Footer } from "./Footer.jsx";
 import { useEffect} from "react"
+import {NavMob} from './Mobilenav.jsx'
 import { Task_pending } from "./Task_pending.jsx";
 import {useReducetodo } from "./Mainreducer.jsx"
 export function Pending(){
@@ -30,11 +32,11 @@ export function Pending(){
     parsent ="0"
     }
     return(
-        <main className="flex-1 flex flex-col ml-64 min-h-screen   bg-background">
+        <main className="flex-1 lg:ml-64 lg:min-w-fit min-h-screen flex flex-col">
             <Header/>
-            <div className="px-11 py-8  max-w-full w-full">
+            <div className="p-4 lg:p-10   max-w-full w-full -z-40">
             <div className="mb-10">
-            <h1 className="text-4xl font-bold tracking-tight text-on-surface mb-2">Pending Tasks</h1>
+            <h1 className="text-2xl font-bold tracking-tight text-on-surface mb-2">Pending Tasks</h1>
             <p className="text-on-surface-variant text-lg">You have {pending_tasks.length} tasks awaiting completion for this week.</p>
             </div>
             <div className="flex gap-2 flex-wrap mb-8">
@@ -77,6 +79,7 @@ export function Pending(){
             </div>
             </div>
             </div>
+            <div className="lg:hidden min-w-full fixed bottom-0"><NavMob></NavMob></div>
         </main>
     )
 }

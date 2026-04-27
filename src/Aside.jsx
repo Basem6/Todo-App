@@ -9,8 +9,7 @@ export function Aside(){
         })
     })
     return (
-        <>
-            <aside className="hidden  md:flex  h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-900 flex-col p-4 gap-2 z-40 transition-all duration-200 ease-in-out">
+            <aside className="hidden lg:flex  h-screen w-64 fixed left-0 top-0 bg-slate-100 dark:bg-slate-900 flex-col p-4 gap-2 z-40 transition-all duration-200 ease-in-out">
                 <div className="px-3 py-6 flex items-center gap-3">
                     <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
                         <span className="material-symbols-outlined text-white">cloud_queue</span>
@@ -54,6 +53,5 @@ export function Aside(){
                     <span className="text-xs font-bold uppercase tracking-wider">New Category</span>
                 </button>
             </aside>
-        </>
     )
 }

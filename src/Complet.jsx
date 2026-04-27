@@ -1,5 +1,7 @@
 import { Header } from "./Header"
+import { Footer } from "./Footer.jsx";
 import { Task } from "./Task"
+import {NavMob} from './Mobilenav.jsx'
 import { useEffect} from "react"
 import { Task_complete } from "./Task_complete";
 import {useReducetodo } from "./Mainreducer.jsx"
@@ -11,11 +13,11 @@ export function Complete(){
             }) 
     }, []);
     return(
-        <main className="flex-1 flex flex-col min-h-screen relative bg-background ml-64">
+        <main className="flex-1 lg:ml-64 lg:min-w-fit min-h-screen flex flex-col">
             <Header/>
-            <div className="flex-1 px-11 py-8 max-w-full w-full">
+            <div className="flex-1 p-4 lg:p-10 max-w-full w-full">
             <div className="mb-12">
-            <h2 className="text-4xl font-bold tracking-tight text-on-background mb-2">Completed Tasks</h2>
+            <h2 className="text-2xl font-bold tracking-tight text-on-background mb-2">Completed Tasks</h2>
             <p className="text-on-surface-variant max-w-lg">Everything you've accomplished so far. A legacy of productivity and focus.</p>
             </div>
             <div className="grid grid-cols-12 gap-6">
@@ -78,6 +80,7 @@ export function Complete(){
             </div>
             </div>
             </div>
+            <div className="lg:hidden min-w-full fixed bottom-0"><NavMob></NavMob></div>
         </main>
     )
 }

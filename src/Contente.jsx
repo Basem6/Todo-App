@@ -7,6 +7,7 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Button from '@mui/material/Button';
 import {Loader} from './Loader.jsx';
+import {NavMob} from './Mobilenav.jsx'
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -127,19 +128,20 @@ export function Contente(){
     }, [data, todos]);
     return(
         <>
-            <main className="flex-1 ml-64 min-h-screen flex flex-col ">
+            <main className="flex-1 lg:ml-64 lg:min-w-fit min-h-screen flex flex-col ">
                     <Header handlechange={handlesearch} data={data}/>
-                    <section className="p-10  w-full mx-auto flex flex-col gap-8">
-                        <div className="bg-surface-container-lowest p-8 rounded-2xl border border-surface-container/50">
+                    <section className="p-4 lg:p-10     w-full mx-auto flex flex-col gap-8">
+                        <div className="bg-surface-container-lowest p-8  rounded-2xl border border-surface-container/50 ">
                         <h2 className="text-lg font-bold mb-6">Quick Add Task</h2>
-                        <div className="flex flex-col md:flex-row gap-4">
+                        <div className="flex flex-col md:flex-row gap-4 flex-wrap max-w-full">
                         <div className="flex-1 flex items-center bg-surface-container-low rounded-xl px-4 focus-within:ring-2 focus-within:ring-primary/10 transition-all">
                         <span className="material-symbols-outlined text-outline mr-2">add_task</span>
-                        <input className="bg-transparent border-none w-full py-4 text-sm focus:ring-0 placeholder:text-outline" placeholder="What's your next move?" type="text" value={task.title} onChange={(e)=>{handleaddtask(e)}}/>
+                        <input className="bg-transparent border-none w-full py-4 text-sm focus:ring-0 placeholder:text-outline max-w-full" placeholder="What's your next move?" type="text" value={task.title} onChange={(e)=>{handleaddtask(e)}}/>
                         </div>
-                        <div className="flex gap-4">
-                        <div className="relative min-w-35">
-                        <Box sx={{ minWidth: 120,borderBlock: '0px solid'  }} className="appearance-none w-full bg-surface-container-low border-none outline-none ">
+
+                        <div className="flex gap-4 flex-wrap">
+                        <div className="relative w-35 grow">
+                        <Box sx={{ minWidth: 120,borderBlock: '0px solid'  }} className="appearance-none w-full bg-surface-container-low border-none outline-none grow">
                             <FormControl fullWidth className="border-none outline-none rounded-md "   >
                                 <InputLabel id="demo-simple-select-label " className="outline-none">Priority</InputLabel>
                                 <Select
@@ -156,19 +158,20 @@ export function Contente(){
                             </FormControl>
                         </Box>
                         </div>
-                        <div className="flex items-center bg-surface-container-low rounded-xl px-4 min-w-40">
+                        <div className="flex items-center bg-surface-container-low rounded-xl px-4 w-40 grow">
                         <span className="material-symbols-outlined text-outline text-lg mr-2">calendar_month</span>
                         <input className="bg-transparent border-none w-full py-4 text-xs font-semibold focus:ring-0 placeholder:text-outline" placeholder="Set Date" type="text" value={task.date} onChange={(e)=>{handledate(e)}}/>
                         </div>
-                        <button className={`bg-primary text-on-primary px-8 rounded-xl font-bold text-sm hover:shadow-lg hover:shadow-primary/20 transition-all ${!task.title || !task.Priority || !task.date?"notclick":""}`} onClick={(e)=>{handleclickbutton(e)}}>Add Task</button>
+                        <button className={`bg-primary grow text-on-primary p-4 rounded-xl font-bold text-sm hover:shadow-lg hover:shadow-primary/20 transition-all ${!task.title || !task.Priority || !task.date?"notclick":""}`} onClick={(e)=>{handleclickbutton(e)}}>Add Task</button>
                         </div>
+
                         </div>
                         </div>
                         <div className="flex flex-col gap-6">
                         <div className="flex items-center justify-between">
                         <div>
-                        <h3 className="text-2xl font-bold tracking-tight">Today's Focus</h3>
-                        <p className="text-sm text-on-surface-variant mt-1">You have {filteredTodos.length} tasks to complete today.</p>
+                        <h3 className="text-lg font-bold tracking-tight">Today's Focus</h3>
+                        <p className="text-sm text-on-surface-variant mt-1">You have {filteredTodos.length} tasks to complete</p>
                         </div>
                         <div className="flex items-center gap-3">
                         <div className="flex bg-surface-container-low p-1 rounded-xl">
@@ -230,6 +233,7 @@ export function Contente(){
                         </div>
                         </div>
                     </section>
+                    <div className="lg:hidden min-w-full fixed bottom-0"><NavMob></NavMob></div>
                     <Footer/>
             </main>
             <Dialog
