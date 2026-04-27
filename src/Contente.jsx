@@ -92,25 +92,21 @@ export function Contente(){
             }) 
     }, []);
 
-    //cashing with useMemo
-    // let array = useMemo(()=>{
-    //     return todos.map((item,index) => {
-    //                             return (
-    //                                 <Task details={todos[index]} key={index} s="a" dilogdelete={handledelet_dilog}  dilogubdate={handleubdate_dilog}/>
-    //                             );
-    //     })
-
-    // },[todos])
+    // cashing with useMemo
+    let todo = useMemo(()=>{
+        return todos.map((item) => {    
+            return item
+        })
+    },[todos])
 
     useEffect(() => {
         if (data === "") {
             setLoading(false);
-            setFilteredTodos(todos);
+            setFilteredTodos(todo);
             return;
         }
 
         setLoading(true);
-
         const timer = setTimeout(() => {
             const result = todos.filter((e) =>
             e.title.toLowerCase().startsWith((data.toLowerCase()))
@@ -191,7 +187,6 @@ export function Contente(){
                         </div>
                         </div>
                         <div className="grid gap-4 tasks_place">
-                            {/* {array} */}
                             {loading ? (
                                     <div className="mt-20 min-w-full flex justify-center items-center"><Loader></Loader></div>
                                     ) :( filteredTodos.length !=0 ?
