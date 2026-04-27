@@ -6,7 +6,6 @@ button{
     cursor: pointer;
 }
 @theme {
-    /* 🎨 Colors */
     --color-surface-container-low: #f0f4f7;
     --color-on-tertiary: #f9f8ff;
     --color-tertiary-container: #4388fd;
@@ -59,51 +58,35 @@ button{
     --color-surface-dim: #cfdce3;
     --color-primary-container: #dae2fd;
 
-    /* 🔘 Border Radius */
     --radius: 0.25rem;
     --radius-lg: 0.5rem;
     --radius-xl: 0.75rem;
     --radius-2xl: 1.5rem;
     --radius-full: 9999px;
 
-    /* 🔤 Fonts */
     --font-headline: "Inter", sans-serif;
     --font-body: "Inter", sans-serif;
     --font-label: "Inter", sans-serif;
     }
-.active{
-  display: flex;                 /* flex */
-  align-items: center;           /* items-center */
-  gap: 0.75rem;                  /* gap-3 */
-
-  padding: 0.75rem 1rem;         /* py-3 px-4 */
-
-  background-color: #ffffff;     /* bg-white */
-  color: #0f172a;                /* text-slate-900 */
-
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* shadow-sm */
-  border-radius: 0.75rem;        /* rounded-xl */
-
-  transition: all 0.2s ease-in-out; /* transition-all duration-200 ease-in-out */
+.active{      
+  min-width: 100%;                                  
+  background-color: #ffffff;     
+  color: #0f172a;    
+  border-radius: 12px;            
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
-.active_t{                 /* flex */
-  align-items: center;           /* items-center */                /* gap-3 */        /* py-3 px-4 */
-  background-color: #ffffff;     /* bg-white */
-  color: #0f172a;                /* text-slate-900 */     /* rounded-xl */
-  transition: all 0.2s ease-in-out; 
+.active_t{                                             
+  color: #000000;               
 }
 .dark .active_t {
-  background-color: #1e293b;     /* slate-800 */
-  color: #ffffff;                /* text-white */
+  background-color: #1e293b;     
+  color: #ffffff;                
 }
 
-/* Dark Mode */
 .dark .active {
-  background-color: #1e293b;     /* slate-800 */
-  color: #ffffff;                /* text-white */
+  background-color: #1e293b;     
+  color: #ffffff;               
 }
-/* From Uiverse.io by Praashoo7 */ 
-/* Design Inspired by one of Stefan Devai's Design on Dribble */
 
 .main_wrapper {
   display: flex;

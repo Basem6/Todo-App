@@ -1,7 +1,7 @@
 import { Task } from "./Task.jsx";
 import { Footer } from "./Footer.jsx";
 import { Header } from "./Header.jsx";
-import { useState , useEffect , useMemo} from "react";
+import { useState , useEffect , useMemo } from "react";
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -31,12 +31,12 @@ export function Contente(){
     const [taskup , setup] = useState({titlel:"" , pharse:"" , ubdate:false});
     const [task , setTask] = useState({title: "", pharse: "This is a new task.", Priority: "" , date: "" , status: "nochecked" ,ubdate:false});
     function handleaddtask(e){
-        setTask({...task, title: e.target.value , pharse: "This is a new task." , Priority: task.Priority, date: task.date, status: task.status});
+        setTask({...task, title: e.target.value , Priority: task.Priority, date: task.date, status: task.status});
     }
     function handleclickbutton(){
             dispatch({
                 type:"added",
-                payload:{inputtitle:task.title , inputPriority:task.Priority , inputdate:task.date , statue:task.status }
+                payload:{inputtitle:task.title , inputPriority:task.Priority , inputdate:task.date , statue:task.status , pharse:"This is a new task."}
             })
             showAlert("success","Added Task Successfully")
             setTask({title: "", pharse: "This is a new task", Priority: "", date: "", status: "nochecked"})
@@ -47,7 +47,7 @@ export function Contente(){
     function handledate(e){
             setTask({...task, date: e.target.value})
     }
-    
+    console.log("test")
     // delete dilog
     function handledelet_dilog(task_path){
         seTodo(task_path)
@@ -68,7 +68,7 @@ export function Contente(){
     // ubdate dilog
     function handleubdate_dilog(task_path){
         seTodo(task_path)
-        setup({titlel:task_path.title, pharse:task_path.pharse , ubdate:true })
+        setup({...taskup ,titlel:task_path.title, pharse:task_path.pharse , ubdate:true })
         setOpen2(true);   
     }
     const handleClose2 = () => {
@@ -91,27 +91,19 @@ export function Contente(){
                 type:"get",
             }) 
     }, []);
-
-    // cashing with useMemo
-    let todo = useMemo(()=>{
-        return todos.map((item) => {    
-            return item
-        })
-    },[todos])
-
+    
     useEffect(() => {
         if (data === "") {
             setLoading(false);
-            setFilteredTodos(todo);
+            setFilteredTodos(todos);
             return;
         }
-
         setLoading(true);
         const timer = setTimeout(() => {
             const result = todos.filter((e) =>
             e.title.toLowerCase().startsWith((data.toLowerCase()))
             );
-            if(result!=[]){
+            if(result.length > 0){
             setFilteredTodos(result);
             }else{
                 
@@ -139,7 +131,7 @@ export function Contente(){
                         <div className="relative w-35 grow">
                         <Box sx={{ minWidth: 120,borderBlock: '0px solid'  }} className="appearance-none w-full bg-surface-container-low border-none outline-none grow">
                             <FormControl fullWidth className="border-none outline-none rounded-md "   >
-                                <InputLabel id="demo-simple-select-label " className="outline-none">Priority</InputLabel>
+                                <InputLabel id="demo-simple-select-label" className="outline-none">Priority</InputLabel>
                                 <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"
@@ -167,7 +159,7 @@ export function Contente(){
                         <div className="flex items-center justify-between">
                         <div>
                         <h3 className="text-lg font-bold tracking-tight">Today's Focus</h3>
-                        <p className="text-sm text-on-surface-variant mt-1">You have {filteredTodos.length} tasks to complete</p>
+                        <p className="text-sm text-on-surface-variant mt-1">You have {filteredTodos?.length || 0} tasks</p>
                         </div>
                         <div className="flex items-center gap-3">
                         <div className="flex bg-surface-container-low p-1 rounded-xl">
@@ -251,7 +243,7 @@ export function Contente(){
                     <Button onClick={handleClose} autoFocus>
                         Disagree
                     </Button>
-                    <Button onClick={()=>{handleagree()}}>Agree</Button>
+                    <Button onClick={handleagree}>Agree</Button>
                     </DialogActions>
             </Dialog>
             <Dialog open={open2}

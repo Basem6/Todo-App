@@ -34,7 +34,7 @@ export function Pending(){
     return(
         <main className="flex-1 lg:ml-64 lg:min-w-fit min-h-screen flex flex-col">
             <Header/>
-            <div className="p-4 lg:p-10   max-w-full w-full -z-40">
+            <div className="p-4 lg:p-10 flex-1  max-w-full w-full -z-40">
             <div className="mb-10">
             <h1 className="text-2xl font-bold tracking-tight text-on-surface mb-2">Pending Tasks</h1>
             <p className="text-on-surface-variant text-lg">You have {pending_tasks.length} tasks awaiting completion for this week.</p>

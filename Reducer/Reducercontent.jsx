@@ -2,7 +2,7 @@ export default function reducer(currentstate , action){
     switch(action.type){
         case "added":{
                     if(action.payload.inputtitle.trim() !== "" && action.payload.inputPriority.trim() !== "" && action.payload.inputdate.trim() !== ""){
-                        let newe = {title: action.payload.inputtitle , Priority: action.payload.inputPriority, date: action.payload.inputdate , status:action.payload.statue};
+                        let newe = {title: action.payload.inputtitle , Priority: action.payload.inputPriority, date: action.payload.inputdate , status:action.payload.statue , pharse:"This is a new task."};
                         let ubdatedtasks = [...currentstate, newe]
                         localStorage.setItem("tasks", JSON.stringify(ubdatedtasks));
                         return ubdatedtasks ;
@@ -20,7 +20,6 @@ export default function reducer(currentstate , action){
                                 task.title=action.payload.titleinput
                                 task.pharse=action.payload.pharseinput
                                 task.ubdate = Date.now()
-                                console.log(task)
                                 return task
                             }else{
                                 return task
