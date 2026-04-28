@@ -69,7 +69,7 @@ export function Task({details , s , dilogdelete , dilogubdate }){
                             <span className="text-sm whitespace-nowrap min-w-[80px] max-w-[80px]">{date_task}</span>
                         </div>       
                         <span className={`px-3 py-1.5  rounded-lg text-[10px] font-bold uppercase tracking-wider  ${textColor}   ${bgColor} whitespace-nowrap`}>{details.Priority}</span>
-                        <div className={` ${s=="p"?"hidden":"flex"}`}>
+                        <div className={` ${s=="p"?"hidden":"flex"} mx-1.5`}>
                         <Menubar   sx={{
                             "& .MuiPaper-root": {
                             backgroundColor: "transparent",

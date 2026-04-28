@@ -47,7 +47,7 @@ export function Contente(){
     function handledate(e){
             setTask({...task, date: e.target.value})
     }
-    console.log("test")
+    
     // delete dilog
     function handledelet_dilog(task_path){
         seTodo(task_path)
@@ -107,13 +107,14 @@ export function Contente(){
             setFilteredTodos(result);
             }else{
                 
-                setFilteredTodos(null);
+            setFilteredTodos([]);
             }
             setLoading(false);
         }, 300); // مش لازم 2000
 
         return () => clearTimeout(timer);
     }, [data, todos]);
+    console.log("test")
     return(
         <>
             <main className="flex-1 lg:ml-64 lg:min-w-fit min-h-screen flex flex-col ">
@@ -180,8 +181,9 @@ export function Contente(){
                         </div>
                         <div className="grid gap-4 tasks_place">
                             {loading ? (
-                                    <div className="mt-20 min-w-full flex justify-center items-center"><Loader></Loader></div>
-                                    ) :( filteredTodos.length !=0 ?
+                                    <div className="mt-20 min-w-full flex justify-center items-center"><Loader/></div>
+                                    ) :
+                                    ( filteredTodos.length !=0 ?
                                     filteredTodos.map((item, index) => (
                                         <Task
                                         key={index}
